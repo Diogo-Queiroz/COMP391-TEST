@@ -4,7 +4,7 @@ public class Asteroid : MonoBehaviour
 {
     [Range(-4, 4)]
     public float minValue, maxValue;
-    public int health = 5;
+    public int health = 5, scoreOnHit = 2, scoreOnDestroy = 6;
     Vector2 inDirection;
     
     void Start()
@@ -22,6 +22,7 @@ public class Asteroid : MonoBehaviour
             Destroy(other.gameObject);
             // Decrease the health of the asteroid
             DecreaseHealth();
+			GameManager.Instance.ChangeScore(scoreOnHit);
         }
         else
         {
@@ -47,6 +48,7 @@ public class Asteroid : MonoBehaviour
         if (health <= 0)
         {
             // Destroy the asteroid
+			GameManager.Instance.ChangeScore(scoreOnDestroy);
             Destroy(gameObject);
         }
     }

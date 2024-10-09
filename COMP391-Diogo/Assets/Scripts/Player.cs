@@ -9,8 +9,10 @@ public class Player : MonoBehaviour
     private Vector2 newVelocity;
     public GameObject missile, explosion;
     public int health = 5;
-    void Start()
+    
+	void Start()
     {
+		GameManager.Instance.UpdateHealthUI(health);
         newVelocity = new Vector2(0f, 0f);
     }
 
@@ -45,14 +47,11 @@ public class Player : MonoBehaviour
     void DecreaseHealth()
     {
         health--;
+		GameManager.Instance.UpdateHealthUI(health);
         if (health <= 0)
         {
+			Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
-    }
-    
-    void OnDestroy()
-    {
-        Instantiate(explosion, transform.position, Quaternion.identity);
     }
 }
