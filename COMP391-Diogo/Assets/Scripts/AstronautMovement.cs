@@ -14,23 +14,27 @@ public class AstronautMovement : MonoBehaviour
     [SerializeField] private bool isFacingRight = true;
 
     [Header("Ground Detection")]
+    [SerializeField] private bool isGrounded = false;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundMask;
 
     private Rigidbody2D rb;
+    private Animator animator;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         horizontaInput = Input.GetAxis("Horizontal");
+        CheckGround();
 
         // Handle the Jump
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             // Then I want to jump
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -40,7 +44,7 @@ public class AstronautMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
-
+        HandleAnimation();
         Flip();
     }
 
@@ -49,9 +53,9 @@ public class AstronautMovement : MonoBehaviour
         rb.velocity = new Vector2(horizontaInput * speed, rb.velocity.y);
     }
 
-    bool IsGrounded()
+    void CheckGround()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.5f, groundMask);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.5f, groundMask);
     }
 
     void Flip()
@@ -70,5 +74,11 @@ public class AstronautMovement : MonoBehaviour
         }
 
         transform.localScale = newLocalScale;
+    }
+
+    void HandleAnimation()
+    {
+        animator.SetBool("IsWalking", horizontaInput != 0.0f);
+        animator.SetBool("IsJumping", !isGrounded);
     }
 }
