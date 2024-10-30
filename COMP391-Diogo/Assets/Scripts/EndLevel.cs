@@ -5,6 +5,8 @@ using UnityEngine;
 public class EndLevel : MonoBehaviour
 {
     [SerializeField] private string nextSceneName = "";
+    [SerializeField] private SceneController sceneController;
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
