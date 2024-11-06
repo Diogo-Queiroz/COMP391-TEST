@@ -9,15 +9,20 @@ public class Player : MonoBehaviour
     private Vector2 newVelocity;
     public GameObject missile, explosion;
     public int health = 5;
+    [SerializeField] private AudioClip missileSound;
+    [SerializeField] private AudioSource missileSource;
     
 	void Start()
     {
 		GameManager.Instance.UpdateHealthUI(health);
         newVelocity = new Vector2(0f, 0f);
+        missileSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
+        if (GameManager.Instance.GameIsPaused) { return; }
+
         horizontalInput =  Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
@@ -33,6 +38,7 @@ public class Player : MonoBehaviour
             Instantiate(missile, 
                 new Vector3(transform.position.x, transform.position.y + 1f, 0f),
                 Quaternion.identity);
+            missileSource.PlayOneShot(missileSound);
         }
     }
 
@@ -51,6 +57,7 @@ public class Player : MonoBehaviour
         if (health <= 0)
         {
 			Instantiate(explosion, transform.position, Quaternion.identity);
+            GameManager.Instance.EndGame("Player Died");
             Destroy(gameObject);
         }
     }
