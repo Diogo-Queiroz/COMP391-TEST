@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,14 +20,20 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-
+	[Header("ScoreBoard Section")]
 	[SerializeField] private TMP_Text scoreboard;
 	private int totalScore = 0;
 	private int totalAsteroids = 0;
 
+	[Header("Health Section")]
 	[SerializeField] private TMP_Text playerHealth;
 
+	[Header("Pause Panel Section")]
 	[SerializeField] private GameObject pausePanel;
+	[SerializeField] private Button mainMenuButton;
+	[SerializeField] private Button quitGameButton;
+
+	[Header("EndGame Panel Section")]
 	[SerializeField] private GameObject endGamePanel;
 	[SerializeField] private TMP_Text endGameTxt;
 
@@ -72,12 +79,20 @@ public class GameManager : MonoBehaviour
 			time--;
 		}
 		// Call sceneController to change scene to mainmenu
-		GetComponent<SceneController>().PlayGame("MainMenu");
+		NavigateToMainMenu();
+	}
+
+	private void NavigateToMainMenu()
+	{
+		Time.timeScale = 1f;
+		SceneController.instance.PlayGame("MainMenu");
 	}
 
     private void Start()
     {
         totalAsteroids = GameObject.FindGameObjectsWithTag("Asteroid").Length;
+		mainMenuButton.onClick.AddListener(NavigateToMainMenu);
+		quitGameButton.onClick.AddListener(QuitGame);
     }
 
     private void Update()

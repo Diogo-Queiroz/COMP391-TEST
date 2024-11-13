@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -11,6 +9,9 @@ public class Player : MonoBehaviour
     public int health = 5;
     [SerializeField] private AudioClip missileSound;
     [SerializeField] private AudioSource missileSource;
+    [SerializeField] private float pitchVariation = 0.07f;
+    [SerializeField] private float missileCooldown = 0.8f;
+    private float missileTimer = 0f;
     
 	void Start()
     {
@@ -23,6 +24,12 @@ public class Player : MonoBehaviour
     {
         if (GameManager.Instance.GameIsPaused) { return; }
 
+        HandleMovement();
+        HandleAttack();
+    }
+
+    private void HandleMovement()
+    {
         horizontalInput =  Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
@@ -30,14 +37,20 @@ public class Player : MonoBehaviour
         newVelocity.y = verticalInput;
 
         GetComponent<Rigidbody2D>().velocity = newVelocity * speed;
+    }
 
+    private void HandleAttack()
+    {
+        missileTimer += Time.deltaTime;
         bool fireMissile = Input.GetButtonDown("Fire1");
-        if (fireMissile)
+        if (fireMissile && missileTimer > missileCooldown)
         {
+            missileTimer = 0f;
             // create a copy of the missile gameobject
             Instantiate(missile, 
                 new Vector3(transform.position.x, transform.position.y + 1f, 0f),
                 Quaternion.identity);
+            missileSource.pitch = Random.Range(1f - pitchVariation, 1f + pitchVariation);
             missileSource.PlayOneShot(missileSound);
         }
     }

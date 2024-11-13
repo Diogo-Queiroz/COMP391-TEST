@@ -436,7 +436,6 @@ GameObject:
   m_Component:
   - component: {fileID: 897943965}
   - component: {fileID: 897943968}
-  - component: {fileID: 897943967}
   - component: {fileID: 897943966}
   m_Layer: 0
   m_Name: EndLevel
@@ -473,18 +472,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSceneName: Gameplay
---- !u!114 &897943967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 897943964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f853ff22b63019a43ad22d10a8a93920, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &897943968
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -692,7 +679,7 @@ Transform:
   m_GameObject: {fileID: 1123824529}
   serializedVersion: 2
   m_LocalRotation: {x: -1.4551915e-11, y: -1.4551915e-11, z: -2.1175824e-22, w: 1}
-  m_LocalPosition: {x: 2.026186, y: -1.64999, z: -10}
+  m_LocalPosition: {x: 2.018283, y: -1.64999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

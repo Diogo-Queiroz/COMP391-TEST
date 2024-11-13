@@ -5,7 +5,6 @@ using UnityEngine;
 public class EndLevel : MonoBehaviour
 {
     [SerializeField] private string nextSceneName = "";
-    [SerializeField] private SceneController sceneController;
 
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -15,12 +14,7 @@ public class EndLevel : MonoBehaviour
         {
             // We get the SceneController component from this
             // We call the PlayGame and pass the nextSceneName
-            GetComponent<SceneController>().PlayGame(nextSceneName);
+            SceneController.instance.PlayGame(nextSceneName);
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        Debug.Log("Collison");
     }
 }

@@ -1519,19 +1519,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1506364248}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1678947793}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: QuitGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1506364248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1609,6 +1597,8 @@ MonoBehaviour:
   health: 8
   missileSound: {fileID: 8300000, guid: 11156c54418185646a3f3ac0b79bbe31, type: 3}
   missileSource: {fileID: 0}
+  pitchVariation: 0.17
+  missileCooldown: 0.8
 --- !u!212 &1559345190
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1987,19 +1977,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1561524318}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1678947795}
-        m_TargetAssemblyTypeName: SceneController, Assembly-CSharp
-        m_MethodName: PlayGame
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: MainMenu
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1561524318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2182,7 +2160,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1678947794}
   - component: {fileID: 1678947793}
-  - component: {fileID: 1678947795}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2205,6 +2182,8 @@ MonoBehaviour:
   scoreboard: {fileID: 1004113218}
   playerHealth: {fileID: 586057546}
   pausePanel: {fileID: 1134675378}
+  mainMenuButton: {fileID: 1561524317}
+  quitGameButton: {fileID: 1506364247}
   endGamePanel: {fileID: 64001697}
   endGameTxt: {fileID: 1605517033}
   GameIsPaused: 0
@@ -2223,18 +2202,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1678947795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1678947792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f853ff22b63019a43ad22d10a8a93920, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1763566629
 GameObject:
   m_ObjectHideFlags: 0
