@@ -7,8 +7,7 @@ public class AstronautMovement : MonoBehaviour
 {
     private float horizontaInput;
     [Header("Movevement Section")]
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpForce;
+    [SerializeField] private AstronautStats stats;
 
     [Header("Flip Player on X")]
     [SerializeField] private bool isFacingRight = true;
@@ -20,6 +19,16 @@ public class AstronautMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+
+    private void Awake()
+    {
+        EventsExample.debugEvent += DebugMessage;
+    }
+
+    private void DebugMessage()
+    {
+        Debug.Log("I am late for the mission. Better run");
+    }
 
     void Start()
     {
@@ -34,13 +43,13 @@ public class AstronautMovement : MonoBehaviour
         CheckGround();
 
         // Handle the Jump
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             // Then I want to jump
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.velocity = new Vector2(rb.velocity.x, stats.jumpForce);
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0f)
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
@@ -50,7 +59,7 @@ public class AstronautMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(horizontaInput * speed, rb.velocity.y);
+        rb.velocity = new Vector2(horizontaInput * stats.speed, rb.velocity.y);
     }
 
     void CheckGround()

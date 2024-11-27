@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        totalAsteroids = GameObject.FindGameObjectsWithTag("Asteroid").Length;
+        totalAsteroids = (int)DificultyManager.instance.selectedDificulty;
 		mainMenuButton.onClick.AddListener(NavigateToMainMenu);
 		quitGameButton.onClick.AddListener(QuitGame);
     }

@@ -6,6 +6,15 @@ public class EndLevel : MonoBehaviour
 {
     [SerializeField] private string nextSceneName = "";
 
+    private void Awake()
+    {
+        EventsExample.debugEvent += DebugMessage;
+    }
+
+    private void DebugMessage()
+    {
+        Debug.Log("FINAL MESSAGE, CALLING ALL ASTRONAUTS TO MISSION!!!");
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
