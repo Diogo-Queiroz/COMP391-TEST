@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private float horizontalInput, verticalInput;
     public int speed;
     private Vector2 newVelocity;
     public GameObject missile, explosion;
+    private bool fireMissile = false;
     public int health = 5;
     [SerializeField] private AudioClip missileSound;
     [SerializeField] private AudioSource missileSource;
@@ -13,11 +13,26 @@ public class Player : MonoBehaviour
     [SerializeField] private float missileCooldown = 0.8f;
     private float missileTimer = 0f;
     
-	void Start()
+    private Rigidbody2D rb;
+    private PlayerInputs inputs;
+
+    private void Awake()
+    {
+        inputs = new PlayerInputs();
+        inputs.Player.Move.performed += context => newVelocity = context.ReadValue<Vector2>();
+        inputs.Player.Move.canceled += _ => newVelocity = Vector2.zero;
+        inputs.Player.Fire.started += _ => fireMissile = true;
+        inputs.Player.Fire.canceled += _ => fireMissile = false;
+    }
+    private void OnEnable() => inputs.Enable();
+    private void OnDisable() => inputs.Disable();
+
+    void Start()
     {
 		GameManager.Instance.UpdateHealthUI(health);
         newVelocity = new Vector2(0f, 0f);
         missileSource = GetComponent<AudioSource>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -30,19 +45,12 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
-        horizontalInput =  Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-
-        newVelocity.x = horizontalInput;
-        newVelocity.y = verticalInput;
-
-        GetComponent<Rigidbody2D>().velocity = newVelocity * speed;
+        rb.velocity = newVelocity * speed;
     }
 
     private void HandleAttack()
     {
         missileTimer += Time.deltaTime;
-        bool fireMissile = Input.GetButtonDown("Fire1");
         if (fireMissile && missileTimer > missileCooldown)
         {
             missileTimer = 0f;

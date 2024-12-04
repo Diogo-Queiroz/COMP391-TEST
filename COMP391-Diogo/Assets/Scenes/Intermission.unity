@@ -822,7 +822,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: fa2d8278557b5a94081ea5547e7fe05b, type: 2}
-  isFacingRight: 1
   isGrounded: 0
   groundCheck: {fileID: 1550990940}
   groundMask:

@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class AstronautMovement : MonoBehaviour
 {
     private float horizontaInput;
+    private bool jumpPressed = false;
     [Header("Movevement Section")]
     [SerializeField] private AstronautStats stats;
-
-    [Header("Flip Player on X")]
-    [SerializeField] private bool isFacingRight = true;
 
     [Header("Ground Detection")]
     [SerializeField] private bool isGrounded = false;
@@ -19,11 +18,19 @@ public class AstronautMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    private PlayerInputs inputs;
 
     private void Awake()
     {
+        inputs = new PlayerInputs();
+        inputs.Player.Move.performed += context => horizontaInput = context.ReadValue<Vector2>().x;
+        inputs.Player.Move.canceled += _ => horizontaInput = 0f; // underscore is a Discard variable placeholder when the variable is unused
+        inputs.Player.Jump.started += _ => jumpPressed = true;
+        inputs.Player.Jump.canceled += _ => jumpPressed = false;
         EventsExample.debugEvent += DebugMessage;
     }
+    private void OnEnable() => inputs.Enable();
+    private void OnDisable() => inputs.Disable();
 
     private void DebugMessage()
     {
@@ -36,20 +43,18 @@ public class AstronautMovement : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        horizontaInput = Input.GetAxis("Horizontal");
         CheckGround();
 
         // Handle the Jump
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (jumpPressed && isGrounded)
         {
             // Then I want to jump
             rb.velocity = new Vector2(rb.velocity.x, stats.jumpForce);
         }
 
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        if (!jumpPressed && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
@@ -73,12 +78,10 @@ public class AstronautMovement : MonoBehaviour
 
         if (horizontaInput > 0f)
         {
-            isFacingRight = true;
             newLocalScale.x = -1f; // It's -1 because the asset is facing left already
         }
         if (horizontaInput < 0f)
         {
-            isFacingRight = false;
             newLocalScale.x = 1f;
         }
 
